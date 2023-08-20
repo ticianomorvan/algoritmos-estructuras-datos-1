@@ -463,6 +463,30 @@ primQueCumplen ls p = takeWhile p ls
 -- a)
 -- Está bien tipado puesto que (a, b) es una tupla de dos elementos, no necesariamente del mismo tipo entre ellos. Al ser un argumento de tipo directo (es decir, no una lista), no hay casos explícitos por cubrir.
 
+-- b)
+-- Está mal tipado, puesto que [(a, b)] es una lista de tuplas de dos elementos, lo que provoca un error en la definición de la función. Además, al ser una lista debe considerarse el elemento neutro de listas []
+
+-- c)
+-- Está bien tipado, puesto que en la sintaxis (x:xs), "x" es una tupla (a, b) dentro de una lista de tuplas. A tener en cuenta, el caso en que tratemos de acceder a un elemento dentro de una ista vacía.
+
+-- d)
+-- Está mal tipado, debido a que si bien la sintaxis ((x, y):xs) es válida para las listas de tuplas, al desestructurar otra tupla, estamos obligando a la lista a tener al menos dos elementos, lo que podría ser contraproducente y generar problemas de patrones exhaustivos.
+
+-- e)
+-- Está mal tipado, debido que al definir f [(0, a)] estamos tomando en cuenta solo uno de los casos posibles que encajen en el tipo de la función, puesto que además de dejar solo a "a" como variable libre, permitimos sSOLO listas que sean de un elemento y que corresponda con (0, a).
+
+-- f)
+-- A diferencia del caso anterior, está bien tipado. Sin embargo, estamos perdiendo una de las variables al darle un valor estático de 1 a la variable libre "a". Además, se debe tomar en cuenta la lista vacía.
+
+-- g)
+-- Está bien tipado, debido a que ambas variables, si bien son de distinto tipo (una es una función y la otra un número entero), ninguna se restringe y permite la generalización de los casos posibles.
+
+-- h)
+-- Está bien tipado, sin embargo rompe con lo aclarado anteriormente puesto que liga una de las variables a un valor fijo y se pierde la generalización.
+
+-- i)
+-- Está mal tipado, debido a que involucra tres argumentos cuando en la declaración de tipos solo requiere dos. Tampoco se cumplen los tipos solicitados, puesto que "0 1" (si se tomara como primer argumento) no es una función, son dos números enteros.
+
 -- Ejercicio 16)
 
 -- a)
