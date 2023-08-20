@@ -46,15 +46,15 @@ valorAbsoluto x
 
 -- a)
 
-paraTodo :: [Bool] -> Bool
-paraTodo [] = True 
-paraTodo (x:xs)
-  | x == True = paraTodo xs
+paratodo :: [Bool] -> Bool
+paratodo [] = True 
+paratodo (x:xs)
+  | x == True = paratodo xs
   | otherwise = False
 
--- paraTodo [True, True, False]
+-- paratodo [True, True, False]
 -- False
--- paraTodo [True, True, True]
+-- paratodo [True, True, True]
 -- True
 
 -- b)
@@ -123,15 +123,15 @@ pertenece x (y:ys)
 
 -- a)
 
-paraTodo' :: [a] -> (a -> Bool) -> Bool
-paraTodo' [] t = True
-paraTodo' (x:xs) t
-  | t x = paraTodo' xs t
+paratodo' :: [a] -> (a -> Bool) -> Bool
+paratodo' [] t = True
+paratodo' (x:xs) t
+  | t x = paratodo' xs t
   | otherwise = False
 
--- paraTodo' [4, 3, 2] esPositivo
+-- paratodo' [4, 3, 2] esPositivo
 -- True
--- paraTodo' [4, 3, (-2)] esPositivo
+-- paratodo' [4, 3, (-2)] esPositivo
 -- False
 
 -- b)
@@ -145,8 +145,6 @@ existe' (x:xs) t
 -- existe' [4, 3, 2] esCero
 -- False
 -- existe' [4, 0, 2] esCero
--- True
--- paraTodo' "aei" esVocal
 -- True
 
 -- c)
@@ -173,12 +171,12 @@ productoria' (x:xs) t = (t x) * (productoria' xs t)
 
 -- Ejercicio 5
 
-paraTodo'' :: [Bool] -> Bool
-paraTodo'' xs = paraTodo' xs (== True)
+paratodo'' :: [Bool] -> Bool
+paratodo'' xs = paratodo' xs (== True)
 
--- paraTodo'' [True, True, False]
+-- paratodo'' [True, True, False]
 -- False
--- paraTodo'' [True, True, True]
+-- paratodo'' [True, True, True]
 -- True
 
 -- Ejercicio 6
@@ -186,7 +184,7 @@ paraTodo'' xs = paraTodo' xs (== True)
 -- a)
 
 todosPares :: [Int] -> Bool
-todosPares xs = paraTodo' xs even
+todosPares xs = paratodo' xs even
 
 -- todosPares [2, 3, 5]
 -- False
@@ -274,7 +272,7 @@ esFib n = existe' (map fib [0..n]) (== n)
 -- i)
 
 todosFib :: [Int] -> Bool
-todosFib xs = paraTodo' xs esFib
+todosFib xs = paratodo' xs esFib
 
 -- todosFib [1, 2, 5]
 -- True
@@ -295,62 +293,194 @@ todosFib xs = paraTodo' xs esFib
 -- filter esPositivo [1, -4, 6, 2, -8] es equivalente [1,6,2]
 
 -- Ejercicio 8
--- duplicateEachElement: duplica cada elemento de una lista xs
+-- duplicarCadaElemento: duplica cada elemento de una lista xs
 
 -- a)
 
-duplicateEachElement :: [Int] -> [Int]
-duplicateEachElement [] = []
-duplicateEachElement (x:xs) = (x * 2):(duplicateEachElement xs)
+duplicarCadaElemento :: [Int] -> [Int]
+duplicarCadaElemento [] = []
+duplicarCadaElemento (x:xs) = (x * 2):(duplicarCadaElemento xs)
 
--- duplicateEachElement [2, 4, 6, 8]
+-- duplicarCadaElemento [2, 4, 6, 8]
 -- [4,8,12,16]
--- duplicateEachElement [3, 6, 9, 12]
+-- duplicarCadaElemento [3, 6, 9, 12]
 -- [6,12,18,24]
 
 -- b)
 
-duplicateEachElement' :: [Int] -> [Int]
-duplicateEachElement' xs = map (*2) xs
+duplicarCadaElemento' :: [Int] -> [Int]
+duplicarCadaElemento' xs = map (*2) xs
 
--- duplicateEachElement' [5, 10, 15]
+-- duplicarCadaElemento' [5, 10, 15]
 -- [10,20,30]
--- duplicateEachElement' [6, 12, 18]
+-- duplicarCadaElemento' [6, 12, 18]
 -- [12,24,36]
 
 -- Ejercicio 9
--- onlyPrimes: devuelve una lista solo con los primos de la lista xs
+-- soloPrimos: devuelve una lista solo con los primos de la lista xs
 
 -- a)
 
-onlyPrimes :: [Int] -> [Int]
-onlyPrimes [] = []
-onlyPrimes (x:xs)
-  | esPrimo x = x:(onlyPrimes xs)
-  | otherwise = onlyPrimes xs
+soloPrimos :: [Int] -> [Int]
+soloPrimos [] = []
+soloPrimos (x:xs)
+  | esPrimo x = x:(soloPrimos xs)
+  | otherwise = soloPrimos xs
 
--- onlyPrimes [2, 4, 7, 9, 11]
+-- soloPrimos [2, 4, 7, 9, 11]
 -- [2,7,11]
--- onlyPrimes [2, 3, 5, 9, 11, 15, 19]
+-- soloPrimos [2, 3, 5, 9, 11, 15, 19]
 -- [2,3,5,11,19]
 
 -- b)
 
-onlyPrimes' :: [Int] -> [Int]
-onlyPrimes' xs = filter esPrimo xs
+soloPrimos' :: [Int] -> [Int]
+soloPrimos' xs = filter esPrimo xs
 
--- onlyPrimes' [1, 2, 7, 21, 23, 34]
+-- soloPrimos' [1, 2, 7, 21, 23, 34]
 -- [1,2,7,23]
--- onlyPrimes' [1, 7, 16, 31, 47, 51]
+-- soloPrimos' [1, 7, 16, 31, 47, 51]
 -- [1,7,31,47]
 
 -- c)
 
 multiplicaPrimos' :: [Int] -> Int
-multiplicaPrimos' xs = productoria (onlyPrimes xs)
+multiplicaPrimos' xs = productoria (soloPrimos xs)
 
 -- multiplicaPrimos' [2, 3, 5, 4, 8]
 -- 30
 -- multiplicaPrimos' [2, 6, 8, 4, 11]
 -- 22
 
+-- Ejercicio 10)
+
+-- a)
+
+primIgualesA :: Eq a => a -> [a] -> [a]
+primIgualesA x [] = []
+primIgualesA x (y:ys)
+  | x == y = y:(primIgualesA x ys)
+  | otherwise = []
+
+-- primIgualesA 3 [3,3,4,1]
+-- [3, 3]
+-- primIgualesA 3 [4,3,3,4,1]
+-- []
+
+
+-- b)
+
+primIgualesA' :: Eq a => a -> [a] -> [a]
+primIgualesA' x ys = takeWhile (x ==) ys
+
+-- primIgualesA' 'a' "aaa"
+-- "aaa"
+-- primIgualesA' 5 [5, 5, 5, 4, 5, 2, 5, 5]
+-- [5,5,5]
+
+
+-- Ejercicio 11)
+
+-- a)
+
+primIguales :: Eq a => [a] -> [a]
+primIguales [] = []
+primIguales (x:y:xs)
+  | x == y = x:primIguales (y:xs)
+  | otherwise = x:[]
+
+-- primIguales [2, 3, 4, 4]
+-- [2]
+-- primIguales [4, 4, 3, 4]
+-- [4,4]
+
+-- b)
+
+primIguales' :: Eq a => [a] -> [a]
+primIguales' [] = []
+primIguales' xs = primIgualesA' (xs!!0) xs
+-- Alternativamente: primIguales' (x:xs) = primIgualesA' x (x:xs)
+
+-- primIguales' [2, 2, 3, 4]
+-- [2,2]
+-- primIguales' "bbdb"
+-- "bb"
+
+-- Ejercicio 12)
+
+cuantGen :: (b -> b -> b) -> b -> [a] -> (a -> b) -> b
+cuantGen op z [] t = z
+cuantGen op z (x:xs) t = op (t x) (cuantGen op z xs t)
+
+paratodoGen :: [a] -> (a -> Bool) -> Bool
+paratodoGen xs t = cuantGen (&&) True xs t
+
+-- paratodoGen [4, 2, 3] (>2)
+-- False
+-- paratodoGen [4, 2, 3] (>=2)
+-- True
+
+existeGen :: [a] -> (a -> Bool) -> Bool
+existeGen xs t = cuantGen (||) False xs t
+
+-- existeGen [2, 6, 3] (>2)
+-- True
+-- existeGen [2, 6, 3] (>7)
+-- False
+
+sumatoriaGen :: [a] -> (a -> Int) -> Int
+sumatoriaGen xs t = cuantGen (+) 0 xs t
+
+-- sumatoriaGen [] (+4)
+-- 0
+-- ghci> sumatoriaGen [2, 6, 10] (+4)
+-- 30
+
+productoriaGen :: [a] -> (a -> Int) -> Int
+productoriaGen xs t = cuantGen (*) 1 xs t
+
+-- productoriaGen [9, 4, 7] (+3)
+-- 840
+-- productoriaGen [2, 3, 5] (+1)
+-- 72
+
+-- Ejercicio 13)
+
+distanciaEdicion :: [Char] -> [Char] -> Int
+distanciaEdicion xs [] = length xs
+distanciaEdicion [] ys = length ys
+distanciaEdicion (x:xs) (y:ys)
+  | x == y = distanciaEdicion xs ys
+  | otherwise = 1 + (distanciaEdicion xs ys)
+
+-- Ejercicio 14)
+
+primQueCumplen :: [a] -> (a -> Bool) -> [a]
+primQueCumplen ls p = takeWhile p ls
+
+-- Ejercicio 15)
+
+-- a)
+-- Está bien tipado puesto que (a, b) es una tupla de dos elementos, no necesariamente del mismo tipo entre ellos. Al ser un argumento de tipo directo (es decir, no una lista), no hay casos explícitos por cubrir.
+
+-- Ejercicio 16)
+
+-- a)
+-- f :: (a, b) -> b
+-- f (x, y) = b
+-- ALT: en este caso no hay otra posibilidad más que devolver el segundo valor de la tupla.
+
+-- b)
+-- f :: (a, b) -> c
+-- f (x, y) = x + y
+-- ALT: en este caso podemos aplicar otras operaciones, como (*) o (-), siempre y cuando estén bien definidos los tipos de las variables.
+
+-- c)
+-- f :: (a -> b) -> a -> b
+-- f t x = t x
+-- ALT: en este caso solo cambiaría la sintaxis, puesto que la definición nos obliga a utilizar una función de transformación o validación
+
+-- d)
+-- f :: (a -> b) -> [a] -> [b]
+-- f t xs = map t xs
+-- ALT: en este caso, podríamos utilizar recursión en vez de la función map, pero al igual que en c) los requisitos de la función son claros.
