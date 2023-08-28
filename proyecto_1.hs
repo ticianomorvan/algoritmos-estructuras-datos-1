@@ -261,8 +261,15 @@ fib 0 = 1
 fib 1 = 1
 fib n = fib (n - 1) + fib (n - 2)
 
+arrayFib :: Int -> [Int] -> [Int]
+arrayFib n [] = []
+arrayFib n (x:xs)
+  | fib x > n = []
+  | fib x == n = [x]
+  | otherwise = arrayFib n xs
+
 esFib :: Int -> Bool
-esFib n = existe' (map fib [0..n]) (== n)
+esFib n = existe' (arrayFib n [0..(n + 1)]) (>= 0)
 
 -- esFib 11
 -- False
