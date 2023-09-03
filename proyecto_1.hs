@@ -255,11 +255,18 @@ multiplicaPrimos xs = productoria (filter esPrimo xs)
 -- 462
 
 -- h)
+-- Contexto:
+-- Individualmente, planteé una solución utilizando el cuantificador "existe" para, en una lista de todos los números de Fibonacci entre 0 y el número registrado (por ej: para n = 17, calcularía el fibonacci para cada elemento en la lista [0..n], lo cual era efectivo solo para los primeros 20 o 30 números de la sucesión.
+-- Luego, al darme cuenta que no sería eficiente ni funcional para números mayores, colaboré con compañeros y amigos para llegar a una mejor solución (véanse las funciones esFib y arrayFib) en la que, recursivamente formamos una lista de la sucesión de Fibonacci hasta llegar a encontrar el número buscado o, en caso de que no pertenezca, encontrarnos un número mayor que frene la recursividad.
+-- Si bien esta solución nos permitió verificar la pertenencia del número en la sucesión en un tiempo no mayor a cinco segundos más lento de lo que se calcula el propio número n de la sucesión, a través de la guía del profesor pudimos encontrar un nuevo enfoque. Usando una función sin argumentos que va llenando una lista de los números de Fibonacci y la función pertenece, pudimos reducir el tiempo de ejecución a, en la mayoría de los casos probados, menos de un segundo.
 
 fib :: Int -> Int
 fib 0 = 1
 fib 1 = 1
 fib n = fib (n - 1) + fib (n - 2)
+
+fib' :: [Int]
+fib' = [0,1] ++ (zipWith (+) fib' (tail fib'))
 
 arrayFib :: Int -> [Int] -> [Int]
 arrayFib n [] = []
@@ -270,6 +277,9 @@ arrayFib n (x:xs)
 
 esFib :: Int -> Bool
 esFib n = existe' (arrayFib n [0..(n + 1)]) (>= 0)
+
+esFib' :: Int -> Bool
+esFib' n = pertenece n (takeWhile (<=n) fib')
 
 -- esFib 11
 -- False
