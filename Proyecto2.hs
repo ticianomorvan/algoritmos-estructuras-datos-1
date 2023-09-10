@@ -39,7 +39,7 @@ cifradoAmericano Si = 'B'
 
 -- a)
 minimoElemento :: Ord a => [a] -> a
-minimoElemento (x:[]) = x
+minimoElemento [x] = x
 minimoElemento (x:y:xs)
   | x < y = minimoElemento (x:xs)
   | otherwise = minimoElemento (y:xs)
@@ -52,7 +52,7 @@ minimoElemento (x:y:xs)
 -- b)
 minimoElemento' :: (Ord a, Bounded a) => [a] -> a
 minimoElemento' [] = maxBound
-minimoElemento' (x:[]) = x
+minimoElemento' [x] = x
 minimoElemento' (x:y:xs)
   | x < y = minimoElemento' (x:xs)
   | otherwise = minimoElemento' (y:xs)
@@ -93,28 +93,28 @@ data Deportista = Ajedrecista
 -- Ciclista :: Modalidad -> Deportista
 
 -- c)
-contar_velocistas :: [Deportista] -> Int
-contar_velocistas [] = 0
-contar_velocistas ((Velocista a):ds) = 1 + contar_velocistas ds
-contar_velocistas (d:ds) = contar_velocistas ds
+contarVelocistas :: [Deportista] -> Int
+contarVelocistas [] = 0
+contarVelocistas ((Velocista a):ds) = 1 + contar_velocistas ds (d:ds)
+contarVelocistas = contar_velocistas ds
 
--- ghci> contar_velocistas [Velocista 4, Velocista 4, Ajedrecista]
+-- ghci> contarVelocistas [Velocista 4, Velocista 4, Ajedrecista]
 -- 2
--- ghci> contar_velocistas [Velocista 4, Ajedrecista]
+-- ghci> contarVelocistas [Velocista 4, Ajedrecista]
 -- 1
 
 
 -- d)
-contar_futbolistas :: [Deportista] -> Zona -> Int
-contar_futbolistas [] z = 0
-contar_futbolistas ((Futbolista z n p a):ds) z'
-  | z == z' = 1 + contar_futbolistas ds z'
-  | otherwise = contar_futbolistas ds z'
-contar_futbolistas (d:ds) z' = contar_futbolistas ds z'
+contarFutbolistas :: [Deportista] -> Zona -> Int
+contarFutbolistas [] z = 0
+contarFutbolistas ((Futbolista z n p a):ds) z'
+  | z == z' = 1 + contarFutbolistas ds z'
+  | otherwise = contarFutbolistas ds z'
+contarFutbolistas (d:ds) z' = contarFutbolistas ds z'
 
--- ghci> contar_futbolistas [Futbolista Arco 13 Derecha 187, Futbolista Delantera 24 Izquierda 184, Ajedrecista, Velocista 194] Arco 
+-- ghci> contarFutbolistas [Futbolista Arco 13 Derecha 187, Futbolista Delantera 24 Izquierda 184, Ajedrecista, Velocista 194] Arco 
 -- 1
--- ghci> contar_futbolistas [Futbolista Arco 13 Derecha 187, Futbolista Delantera 24 Izquierda 184, Velocista 194, Futbolista Delantera 48 Derecha 193] Delantera
+-- ghci> contarFutbolistas [Futbolista Arco 13 Derecha 187, Futbolista Delantera 24 Izquierda 184, Velocista 194, Futbolista Delantera 48 Derecha 193] Delantera
 -- 2
 
 -- e)
@@ -122,8 +122,8 @@ esFutbolistaDeZona :: Zona -> Deportista -> Bool
 esFutbolistaDeZona z' (Futbolista z n p a) = z == z'
 esFutbolistaDeZona z' d = False
 
-contar_futbolistas' :: [Deportista] -> Zona -> Int
-contar_futbolistas' ds z' = length (filter (esFutbolistaDeZona z') ds)
+contarFutbolistas' :: [Deportista] -> Zona -> Int
+contarFutbolistas' ds z' = length (filter (esFutbolistaDeZona z') ds)
 
 -- ghci> contar_futbolistas' [Futbolista Arco 13 Derecha 187, Futbolista Delantera 24 Izquierda 184, Velocista 194, Futbolista Delantera 48 Derecha 193] Delantera
 -- 2
@@ -183,3 +183,40 @@ instance Ord NotaMusical
 -- True
 -- ghci> (Nota Si Bemol) <= (Nota Do Sostenido)
 -- False
+
+-- Ejercicio 6
+
+-- a)
+primerElemento :: [a] -> Maybe a
+primerElemento [] = Nothing
+primerElemento (x:xs) = Just x
+
+-- ghci> primerElemento [2, 4, 6]
+-- Just 2
+-- ghci> primerElemento "hola"
+-- Just 'h'
+
+-- Ejercicio 7
+
+data Cola = VaciaC | Encolada Deportista Cola
+
+-- a)
+atender :: Cola -> Maybe Cola
+atender VaciaC = Nothing
+atender (Encolada _ restoDeLaCola) = Just restoDeLaCola
+
+-- b)
+encolar :: Deportista -> Cola -> Cola
+encolar deportista VaciaC = Encolada deportista VaciaC
+encolar deportista (Encolada d c) = Encolada d (encolar deportista c)
+
+-- c)
+esFutbolista :: Deportista -> Bool
+esFutbolista (Futbolista z n p a) = True
+esFutbolista d = False
+
+busca :: Cola -> Zona -> Maybe Deportista
+busca VaciaC z = Nothing
+busca (Encolada d c) z
+  | esFutbolista d = esFutbolistaDeZona d z
+  | otherwise = busca Encolada 
