@@ -74,11 +74,16 @@ type Altura = Int
 type NumCamiseta = Int
 
 data Zona = Arco | Defensa | Mediocampo | Delantera
-            deriving Eq
+            deriving (Eq, Show)
 
 data TipoReves = DosManos | UnaMano
+                 deriving Show
+
 data Modalidad = Carretera | Pista | Monte | BMX
+                 deriving Show
+
 data PiernaHabil = Izquierda | Derecha
+                   deriving Show
 
 type ManoHabil = PiernaHabil
 
@@ -87,6 +92,7 @@ data Deportista = Ajedrecista
                 | Velocista Altura
                 | Tenista TipoReves ManoHabil Altura
                 | Futbolista Zona NumCamiseta PiernaHabil Altura
+                deriving Show
 
 -- b)
 -- ghci> :t Ciclista 
@@ -95,8 +101,8 @@ data Deportista = Ajedrecista
 -- c)
 contarVelocistas :: [Deportista] -> Int
 contarVelocistas [] = 0
-contarVelocistas ((Velocista a):ds) = 1 + contar_velocistas ds (d:ds)
-contarVelocistas = contar_velocistas ds
+contarVelocistas ((Velocista a):ds) = 1 + contarVelocistas ds
+contarVelocistas (_:ds) = contarVelocistas ds
 
 -- ghci> contarVelocistas [Velocista 4, Velocista 4, Ajedrecista]
 -- 2
@@ -107,10 +113,11 @@ contarVelocistas = contar_velocistas ds
 -- d)
 contarFutbolistas :: [Deportista] -> Zona -> Int
 contarFutbolistas [] z = 0
-contarFutbolistas ((Futbolista z n p a):ds) z'
-  | z == z' = 1 + contarFutbolistas ds z'
-  | otherwise = contarFutbolistas ds z'
-contarFutbolistas (d:ds) z' = contarFutbolistas ds z'
+contarFutbolistas ((Futbolista Arco n p a):ds) Arco = 1 + contarFutbolistas ds Arco
+contarFutbolistas ((Futbolista Defensa n p a):ds) Defensa = 1 + contarFutbolistas ds Defensa
+contarFutbolistas ((Futbolista Mediocampo n p a):ds) Mediocampo = 1 + contarFutbolistas ds Mediocampo
+contarFutbolistas ((Futbolista Delantera n p a):ds) Delantera = 1 + contarFutbolistas ds Delantera
+contarFutbolistas (_:ds) z' = contarFutbolistas ds z'
 
 -- ghci> contarFutbolistas [Futbolista Arco 13 Derecha 187, Futbolista Delantera 24 Izquierda 184, Ajedrecista, Velocista 194] Arco 
 -- 1
@@ -199,16 +206,28 @@ primerElemento (x:xs) = Just x
 -- Ejercicio 7
 
 data Cola = VaciaC | Encolada Deportista Cola
+            deriving Show
 
 -- a)
 atender :: Cola -> Maybe Cola
 atender VaciaC = Nothing
 atender (Encolada _ restoDeLaCola) = Just restoDeLaCola
 
+-- ghci> atender (Encolada Ajedrecista VaciaC)
+-- Just VaciaC
+-- ghci> atender (Encolada Ajedrecista (Encolada (Velocista 193) (Encolada (Futbolista Arco 19 Derecha 192) VaciaC)))
+-- Justt (Encolada (Velocista 193) (Encolada (Futbolista Arco 19 Derecha 192) VaciaC)
+
 -- b)
 encolar :: Deportista -> Cola -> Cola
 encolar deportista VaciaC = Encolada deportista VaciaC
 encolar deportista (Encolada d c) = Encolada d (encolar deportista c)
+
+-- ghci> encolar (Futbolista Arco 12 Derecha 182) VaciaC
+-- Encolada (Futbolista Arco 12 Derecha 182) VaciaC
+-- ghci> encolar (Futbolista Arco 12 Derecha 182) (Encolada Ajedrecista (Encolada (Velocista 175) VaciaC))
+-- Encolada Ajedrecista (Encolada (Velocista 175) (Encolada (Futbolista Arco 12 Derecha 182) VaciaC))
+
 
 -- c)
 esFutbolista :: Deportista -> Bool
@@ -216,7 +235,98 @@ esFutbolista (Futbolista z n p a) = True
 esFutbolista d = False
 
 busca :: Cola -> Zona -> Maybe Deportista
-busca VaciaC z = Nothing
-busca (Encolada d c) z
-  | esFutbolista d = esFutbolistaDeZona d z
-  | otherwise = busca Encolada 
+busca VaciaC z' = Nothing
+busca (Encolada (Futbolista z n p a) c) z'
+  | esFutbolistaDeZona z' d = Just d
+  | otherwise = busca c z'
+  where d = Futbolista z n p a
+busca (Encolada d c) z' = busca c z'
+
+-- ghci> busca (Encolada (Futbolista Delantera 18 Derecha 192) (Encolada Ajedrecista (Encolada (Ciclista Pista) VaciaC))) Arco
+-- Nothing
+-- ghci> busca (Encolada (Futbolista Mediocampo 18 Derecha 173) (Encolada (Futbolista Mediocampo 12 Izquierda 192) (Encolada (Velocista 182) VaciaC))) Mediocampo
+-- Just (Futbolista Mediocampo 18 Derecha 173)
+
+-- Ejercicio 8
+
+data ListaAsoc a b = Vacia | Nodo a b (ListaAsoc a b)
+                     deriving Show
+
+-- a)
+-- Debemos instanciarla de la forma
+type GuiaTelefonica = ListaAsoc String Int
+
+-- Debido a que nosotros conocemos un dato (la dirección del domicilio) y queremos saber el número telefónico que le corresponde.
+
+-- b)
+
+-- 1)
+la_long :: ListaAsoc a b -> Int
+la_long Vacia = 0
+la_long (Nodo a b la) = 1 + la_long la
+
+-- ghci> la_long (Nodo (10::Int) (5::Int) (Nodo (15::Int) (19::Int) Vacia))
+-- 2
+-- ghci> la_long Vacia
+-- 0
+
+-- 2)
+la_concat :: ListaAsoc a b -> ListaAsoc a b -> ListaAsoc a b
+la_concat Vacia Vacia = Vacia
+la_concat Vacia la' = la'
+la_concat (Nodo a b la) la' = Nodo a b (la_concat la la')
+
+-- ghci> la_concat (Nodo "a" "b" Vacia) (Nodo "b" "c" (Nodo "c" "d" Vacia))
+-- Nodo "a" "b" (Nodo "b" "c" (Nodo "c" "d" Vacia))
+-- ghci> la_concat Vacia Vacia
+-- Vacia
+-- ghci> la_concat Vacia (Nodo "a" "b" Vacia)
+-- Nodo "a" "b" Vacia
+-- ghci> la_concat (Nodo "a" "b" Vacia) Vacia
+-- Nodo "a" "b" Vacia
+
+-- 3)
+la_agregar :: Eq a => ListaAsoc a b -> a -> b -> ListaAsoc a b
+la_agregar Vacia a b = Nodo a b Vacia
+la_agregar (Nodo a b la) a' b'
+  | a == a' = Nodo a b' la
+  | otherwise = Nodo a b (la_agregar la a' b')
+
+-- ghci> la_agregar (Nodo "a" "c" (Nodo "b" "c" Vacia)) "a" "b"
+-- Nodo "a" "b" (Nodo "b" "c" Vacia)
+-- ghci> la_agregar (Nodo "a" "c" (Nodo "b" "c" Vacia)) "c" "d"
+-- Nodo "a" "c" (Nodo "b" "c" (Nodo "c" "d" Vacia))
+
+-- 4)
+la_pares :: ListaAsoc a b -> [(a, b)]
+la_pares Vacia = []
+la_pares (Nodo a b la) = (a, b):(la_pares la)
+
+-- ghci> la_pares (Nodo "a" "b" (Nodo "b" "c" Vacia))
+-- [("a","b"),("b","c")]
+-- ghci> la_pares (Nodo "a" "b" (Nodo "b" "c" (Nodo "c" "d" (Nodo "d" "e" Vacia))))
+-- [("a","b"),("b","c"),("c","d"),("d","e")]
+
+-- 5)
+la_busca :: Eq a => ListaAsoc a b -> a -> Maybe b
+la_busca Vacia a = Nothing
+la_busca (Nodo a b la) a'
+  | a == a' = Just b
+  | otherwise = la_busca la a'
+
+-- ghci> la_busca (Nodo "a" "b" (Nodo "c" "d" (Nodo "x" "y" Vacia))) "x"
+-- ghci> Just "y"
+-- ghci> la_busca (Nodo "a" "b" (Nodo "c" "d" (Nodo "x" "y" Vacia))) "z"
+-- Nothing
+
+-- 6)
+la_borrar :: Eq a => a -> ListaAsoc a b -> ListaAsoc a b
+la_borrar a Vacia = Vacia
+la_borrar a' (Nodo a b la)
+  | a' == a = la
+  | otherwise = Nodo a b (la_borrar a' la)
+
+-- ghic> la_borrar "x" (Nodo "a" "b" (Nodo "c" "d" Vacia))
+-- Nodo "a" "b" (Nodo "c" "d" Vacia)
+-- ghci> la_borrar "x" (Nodo "a" "b" (Nodo "c" "d" (Nodo "x" "y" Vacia)))
+-- Nodo "a" "b" (Nodo "c" "d" Vacia)
