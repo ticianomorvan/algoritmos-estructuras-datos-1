@@ -1,1 +1,6 @@
+# Ignorar ejecutables sin extensión
+
 *.swp
+*
+!*.*
+!*/
