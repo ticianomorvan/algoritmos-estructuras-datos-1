@@ -43,13 +43,13 @@ int main() {
     m = y;
   }
 
-  imprimir_variables(4, x, 'x', y, 'y', z, 'z', m, 'm');
+  imprimir_variables(4, x, y, z, m);
 
   if (m >= z) {
     m = z;
   }
 
-  imprimir_variables(4, x, 'x', y, 'y', z, 'z', m, 'm');
+  imprimir_variables(4, x, y, z, m);
 
   return 0;
 }
