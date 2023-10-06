@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "entradas.h"
+#include "entradas_bool.h"
 
 /*
   Siguiendo el estado inicial original, podemos ver que los estados son:

@@ -4,7 +4,7 @@
 // Ejercicio 2
 
 /*
-  Con x = 4, y = (-4), z = 8, b = 1, w = 0:
+  Con x = 4, y = -4, z = 8, b = 1, w = 0:
   x % 4 == 0; si x = 4, el resultado es 1
   x + y == 0 && y - x == (-1) * z; si x = 4, y = -4, z = 8, el resultado es 1
   not b && w; si b = 1, w = 0, el resultado es 0

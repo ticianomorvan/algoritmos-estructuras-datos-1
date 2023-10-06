@@ -14,18 +14,10 @@
 */
 
 // Ejercicio 6c
-void imprimir_variables(int cant_args, ...) {
-  va_list args;
-  va_start(args, cant_args);
+// Esta función, si bien no es muy novedosa, nos ahorra código en el largo plazo, aunque se podría mejorar aún más haciendo que tome una cantidad de parámetros indefinida y que por cada uno de ellos agregue a la cadena de texto su resultado, es decir, por cada variable k que se pase como argumento, tendríamos "k1 = x1, k2 = x2, ..., kn = xn"
 
-  char variables[4] = {'x', 'y', 'z', 'm'};
-
-  for (int i = 0; i < cant_args; i++) {
-    int value = va_arg(args, int);
-    imprimir_entero(value, variables[i]);
-  }
-
-  va_end(args);
+void imprimir_variables(int x, int y, int z, int m) {
+	printf("x = %d, y = %d, z = %d, m = %d\n", x, y, z, m);
 }
 
 int main() {
@@ -35,7 +27,7 @@ int main() {
   z = pedir_entero('z');
   m = pedir_entero('m');
 
-  imprimir_variables(4, x, y, z, m);
+  imprimir_variables(x, y, z, m);
 
   if (x < y) {
     m = x;
@@ -43,13 +35,13 @@ int main() {
     m = y;
   }
 
-  imprimir_variables(4, x, y, z, m);
+  imprimir_variables(x, y, z, m);
 
   if (m >= z) {
     m = z;
   }
 
-  imprimir_variables(4, x, y, z, m);
+  imprimir_variables(x, y, z, m);
 
   return 0;
 }
