@@ -2,7 +2,11 @@
 #include "entradas.h"
 
 /*
-  Nuevamente, los programas 1.h y 1.i son iguales, por lo que mantenemos una sola definición del programa.
+	Con un estado inicial de e0: i = 400, tenemos:
+
+	e1_1: i = 400
+	e2_1: i = 0
+	e3: i = 0
 */
 
 int main() {
@@ -13,7 +17,7 @@ int main() {
 
   while (i != 0) {
     printf("Estado 1: i = %d\n", i);
-    i = i - 1;
+    i = 0;
     printf("Estado 2: i = %d\n", i);
   }
 
