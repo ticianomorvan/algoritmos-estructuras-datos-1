@@ -1,6 +1,14 @@
 #include <stdio.h>
 #include <assert.h>
-#include "utils.h"
+
+int pedir_entero(char name[]) {
+	int n;
+
+	printf("Ingrese un valor entero para %s: ", name);
+	scanf("%i", &n);
+
+	return n;
+}
 
 void hola_hasta(int n) {
 	int i = 0;
@@ -14,6 +22,7 @@ void hola_hasta(int n) {
 int main() {
 	int n = pedir_entero("n");
 	assert(n > 0);
+
 	hola_hasta(n);
 
 	return 0;

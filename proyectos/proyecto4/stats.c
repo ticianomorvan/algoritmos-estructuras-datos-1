@@ -36,7 +36,7 @@ void pedir_arreglo_float(int n_max, float a[]) {
 	while (i < n_max) {
 		float x;
 
-		printf("Ingrese un valor decimal para el índice %d: ", i);
+		printf("Ingrese un valor decimal para el índice %d (usando el punto decimal): ", i);
 		scanf("%f", &x);
 
 		a[i] = x;

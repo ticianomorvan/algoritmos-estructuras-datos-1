@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 #include <assert.h>
 
 char pedir_caracter() {
 	char caracter;
 
 	printf("Ingrese un caracter: ");
-	scanf("%c", &caracter);
+	scanf(" %c", &caracter);
 
 	return caracter;
 }
@@ -32,8 +33,12 @@ bool es_vocal(char letra) {
 int main() {
 	char c = pedir_caracter();
 
-	/* Verificamos que "c" no sea un caracter nulo */
-	assert(c != 0);
+	/* 
+		Verificamos que "c" no sea un caracter nulo
+		Por alguna razón esto no termina de funcionar correctamente.
+		Debe tener algo que ver con como scanf maneja los espacios en blanco.
+	*/
+	assert(c != ' ' && "El caracter ingresado no puede ser un espacio en blanco.");
 
 	bool es_c_vocal = es_vocal(c);
 

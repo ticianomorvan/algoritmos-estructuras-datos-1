@@ -1,10 +1,18 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <math.h>
-#include "utils.h"
+
+int pedir_entero(char name[]) {
+	int n;
+
+	printf("Ingrese un valor entero para %s: ", name);
+	scanf("%i", &n);
+
+	return n;
+}
 
 // NOTA: este programa usa el header "math.h", por lo que la compilación
-// requiere del parámetro "-lm" además del archivo "utils.c" para poder compilar correctamente.
+// requiere del parámetro "-lm" además del archivo para poder compilar correctamente.
 
 /*
  * Determinar si un número es primo viendo si es divisible por los números menores o iguales a su raíz cuadrada.

@@ -1,6 +1,14 @@
 #include <stdio.h>
 #include <assert.h>
-#include "utils.h"
+
+int pedir_entero(char name[]) {
+	int n;
+
+	printf("Ingrese un valor entero para %s: ", name);
+	scanf("%i", &n);
+
+	return n;
+}
 
 typedef struct {
 	int cociente;
@@ -28,10 +36,7 @@ int main() {
 	div_t resultado_division = division(x, y);
 
 	printf("En la división entera de %d por %d, tenemos un cociente de %d y un resto de %d\n", x, y, resultado_division.cociente, resultado_division.resto);
-
-	assert(
-			resultado_division.cociente <= x && resultado_division.resto < y
-	);
+	assert(resultado_division.cociente <= x && resultado_division.resto < y);
 
 	return 0;
 }

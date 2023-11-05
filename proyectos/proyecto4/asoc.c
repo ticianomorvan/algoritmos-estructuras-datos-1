@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include "utils.h"
 
 typedef char clave_t;
 typedef int valor_t;

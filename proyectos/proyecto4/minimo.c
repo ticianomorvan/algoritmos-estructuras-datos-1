@@ -1,6 +1,14 @@
 #include <stdio.h>
 #include <assert.h>
-#include "utils.h"
+
+int pedir_entero(char name[]) {
+	int n;
+
+	printf("Ingrese un valor entero para %s: ", name);
+	scanf("%i", &n);
+
+	return n;
+}
 
 int minimo(int x, int y) {
 	if (x > y) {

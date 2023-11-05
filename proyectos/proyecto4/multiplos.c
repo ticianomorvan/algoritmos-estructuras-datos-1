@@ -1,6 +1,28 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include "utils.h"
+
+int pedir_entero(char name[]) {
+	int n;
+
+	printf("Ingrese un valor entero para %s: ", name);
+	scanf("%i", &n);
+
+	return n;
+}
+
+void pedir_arreglo(int n_max, int a[]) {
+	int i = 0;
+
+	while (i < n_max) {
+		int x;
+
+		printf("Ingrese un valor entero para el índice %d: ", i);
+		scanf("%i", &x);
+
+		a[i] = x;
+		i = i + 1;
+	}
+}
 
 bool todos_pares(int tam, int a[]) {
 	int i = 0;
@@ -16,10 +38,10 @@ bool todos_pares(int tam, int a[]) {
 
 bool existe_multiplo(int m, int tam, int a[]) {
 	int i = 0;
-	bool resultado = true;
+	bool resultado = false;
 
 	while (i < tam) {
-		resultado = a[i] % m == 0;
+		resultado = resultado || a[i] % m == 0;
 		i = i + 1;
 	}
 
@@ -50,6 +72,7 @@ int main() {
 		case 2:
 			int m = pedir_entero("múltiplo");
 			bool existe_multiplo_en_arr = existe_multiplo(m, tam_arr, arr);
+
 			if (existe_multiplo_en_arr) {
 				printf("Si existe un múltiplo de %d en el arreglo.\n", m);
 			} else {
@@ -57,7 +80,6 @@ int main() {
 			}
 
 			break;
-
 		default:
 			printf("Debes elegir una opción válida para ejecutar.\n");
 			break;

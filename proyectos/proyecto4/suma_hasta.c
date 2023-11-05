@@ -1,6 +1,14 @@
 #include <stdio.h>
 #include <assert.h>
-#include "utils.h"
+
+int pedir_entero(char name[]) {
+	int n;
+
+	printf("Ingrese un valor entero para %s: ", name);
+	scanf("%i", &n);
+
+	return n;
+}
 
 int suma_hasta(int n) {
 	int i = 0;
@@ -23,7 +31,6 @@ int main() {
 	int suma_hasta_n = suma_hasta(n);
 
 	printf("La suma de los primeros %d naturales es: %d\n", n, suma_hasta_n);
-
 	assert(n >= 0 && suma_hasta_n >= 0);
 
 	return 0;

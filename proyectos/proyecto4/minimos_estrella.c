@@ -1,7 +1,20 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <limits.h>
-#include "utils.h"
+
+void pedir_arreglo(int n_max, int a[]) {
+	int i = 0;
+
+	while (i < n_max) {
+		int x;
+
+		printf("Ingrese un valor entero para el índice %d: ", i);
+		scanf("%i", &x);
+
+		a[i] = x;
+		i = i + 1;
+	}
+}
 
 int minimo_pares(int tam, int a[]) {
 	int min = INT_MAX;
@@ -47,10 +60,10 @@ bool todos_pares(int tam, int a[]) {
 
 bool existe_multiplo(int m, int tam, int a[]) {
 	int i = 0;
-	bool resultado = true;
+	bool resultado = false;
 
 	while (i < tam) {
-		resultado = a[i] % m == 0;
+		resultado = resultado || a[i] % m == 0;
 		i = i + 1;
 	}
 
@@ -76,16 +89,12 @@ int main() {
 	bool son_todos_pares = todos_pares(tam_arr, arr);
 	bool hay_numeros_pares = existe_multiplo(2, tam_arr, arr);
 
-	if (!hay_numeros_pares) {
-		printf("No hay números pares en el arreglo.\n");
-	} else {
+	if (hay_numeros_pares) {
 		printf("El mínimo número par del arreglo es: %d\n", minimo_par_en_arr);
 	}
 
-	if (son_todos_pares) {
-		printf("No hay números impares en el arreglo.\n");
-	} else {
-		printf("el mínimo número impar del arreglo es: %d\n", minimo_impar_en_arr);
+	if (!son_todos_pares) {
+		printf("El mínimo número impar del arreglo es: %d\n", minimo_impar_en_arr);
 	}
 
 	printf("El mínimo número del arreglo es: %d\n", minimo_en_arr);

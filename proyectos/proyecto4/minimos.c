@@ -1,6 +1,19 @@
 #include <stdio.h>
 #include <limits.h>
-#include "utils.h"
+
+void pedir_arreglo(int n_max, int a[]) {
+	int i = 0;
+
+	while (i < n_max) {
+		int x;
+
+		printf("Ingrese un valor entero para el índice %d: ", i);
+		scanf("%i", &x);
+
+		a[i] = x;
+		i = i + 1;
+	}
+}
 
 int minimo_pares(int tam, int a[]) {
 	int min = INT_MAX;
